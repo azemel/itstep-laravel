@@ -9,6 +9,7 @@
 
 [За 19 день](https://zoom.us/rec/share/9Olecr75xElORbf840TiWqF7H5n5T6a8hCQeqPILxE9cPEtpkN3zQ3G32e26hEd6?startTime=1587129105000)
 
+[За 20 день](https://zoom.us/rec/share/po9WE_Kz2HNOfonm8ljgaKgHA4_Xaaa80HVMr_AJmkg6P6H8PyrjrKiqPLwt7Pnt?startTime=1587389355000)
 ## :scroll: Конспект
 
 Документация Ларавел https://laravel.com/docs/7.x
