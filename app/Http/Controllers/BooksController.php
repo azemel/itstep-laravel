@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Author;
 use App\Book;
+use App\BookReservation;
 use App\FavoriteBook;
 use App\Http\Requests\BookRequest;
 use Exception;
@@ -47,12 +48,29 @@ class BooksController extends Controller
         $result = Book::with("author")->get();
       }
 
-      return view("books")->withBooks($result)->withQuery($query);
+      return view("books")
+        ->withBooks($result)
+        ->withQuery($query);
     }
 
     
     public function find(Book $book, Request $request) {
-      return view("book")->withBook($book);
+      
+      $book->reservations = $book->reservations()->with("user")->get();
+
+      $orderNumber = null;
+      if (Auth::id()) {
+        $i = 0;
+        foreach ($book->pending as $reservation) {
+          if ($reservation->user_id === Auth::id()) {
+            $orderNumber = $i;
+            break;
+          }
+          $i++;
+        }
+      }
+
+      return view("book")->withBook($book)->withOrderNumber($orderNumber);
     }
 
     
@@ -85,7 +103,7 @@ class BooksController extends Controller
         $book->isbn = $request->old("isbn");
         $book->year = $request->old("year");
       }
-
+ 
       return view("book-editor")->withBook($book);
     }
 
@@ -131,5 +149,53 @@ class BooksController extends Controller
       
       $book->save();
     }
+
+    public function reserve(Book $book) {
+      
+      if (!Gate::check("reserve", $book)) {
+        return redirect(route("book", ["book" => $book]))->withMessage("Уже в очереди");
+      }
+
+      $reservation = new BookReservation();
+      $reservation->status = 0;
+      $reservation->user_id = Auth::id();
+      $reservation->book_id = $book->id;
+      // $reservation->setRelation("user", Auth::user());
+      // $reservation->setRelation("book", $book);
+
+      // var_dump($reservation->user);
+      $reservation->save();
+
+      // return view("dummy");      
+      return redirect(route("book", ["book" => $book]))->withMessage("Успех");
+    }
+
+    public function unreserve(Book $book) {
+
+      Gate::authorize("unreserve", $book);
+      
+      BookReservation::where("book_id", "=", $book->id)
+        ->where("user_id", "=", Auth::id())
+        ->where("status", "=", 0)
+        ->delete();
+
+      return redirect(route("book", ["book" => $book]))->withMessage("Успех");
+    }  
+
+    
+    public function pass(Book $book) {
+
+      Gate::authorize("pass", $book);
+      
+      $reservation = BookReservation::where("book_id", "=", $book->id)
+        ->where("user_id", "=", Auth::id())
+        ->where("status", "=", 0)
+        ->first();
+
+      $reservation->status = 1;
+      $reservation->save();
+
+      return redirect(route("book", ["book" => $book]))->withMessage("Успех");
+    }  
 
 }

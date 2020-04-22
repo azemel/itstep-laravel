@@ -20,7 +20,7 @@ BOOKS
       
       @can('update', $book)
         <a href="{{route("books.edit", ["book" => $book])}}">Edit</a>  
-      @endcan
+      @endcan 
     </div>
 
   @empty

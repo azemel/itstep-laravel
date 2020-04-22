@@ -20,5 +20,18 @@ class Book extends Model
   {
       return $this->belongsTo('App\User');
   }
+
+  public function reservations()
+  {
+    return $this->hasMany('App\BookReservation')->orderBy("created_at", "ASC")  ;
+  }
+
+  public function getPendingAttribute() { 
+    return $this->reservations->filter(fn($r) => $r->status === 0);//()->where("status", "=", 0)->get();
+  }
   
+  public function getHistoryAttribute() { 
+    return $this->reservations->filter(fn($r) => $r->status === 1);
+  }
+
 }

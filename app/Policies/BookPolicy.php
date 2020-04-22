@@ -22,6 +22,21 @@ class BookPolicy
       return true;
     }
 
+    public function reserve(User $user, Book $book)
+    {
+      return !$book->pending->some(fn($r) => $r->user_id === $user->id);
+    }
+
+    public function unreserve(User $user, Book $book)
+    {
+      return $book->pending->some(fn($r) => $r->user_id === $user->id);
+    }
+
+    public function pass(User $user, Book $book)
+    {
+      return $book->pending->count() && $book->pending->first()->user_id === $user->id;
+    }
+
     /**
      * Determine whether the user can update the model.
      *

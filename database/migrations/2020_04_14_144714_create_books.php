@@ -21,21 +21,20 @@ class CreateBooks extends Migration
         });
 
         Schema::create('books', function (Blueprint $books) {
-            $books->id();
-            $books->timestamps();
-            $books->string("title", 200);
-            $books->foreignId("author_id");
-            $books->char("isbn", 13)->nullable();
-            $books->integer("year")->nullable();
-            $books->boolean("isAvailable")->default(false);
+          $books->id();
+          $books->timestamps();
+          $books->string("title", 200);
+          $books->foreignId("author_id");
+          $books->char("isbn", 13)->nullable();
+          $books->integer("year")->nullable();
+          $books->boolean("isAvailable")->default(false);
 
-            $books->foreign('author_id')->references('id')->on('authors');
+          $books->foreign('author_id')->references('id')->on('authors');
         });
     }
 
     /**
      * Reverse the migrations.
-     *
      * @return void
      */
     public function down()
