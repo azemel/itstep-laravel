@@ -1,6 +1,8 @@
 @extends('layouts.base')
 
 @section('body')
+
+{{App::getLocale()}}
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -59,7 +61,7 @@
 
                                 @if (Route::has('password.request'))
                                     <a class="btn btn-link" href="{{ route('password.request') }}">
-                                        {{ __('Forgot Your Password?') }}
+                                        @lang('Forgot Your Password?')
                                     </a>
                                 @endif
                             </div>

@@ -1,4 +1,7 @@
-BOOKS
+{{-- @lang("messages.BOOKS", ["param" => "картинками"]) --}}
+
+{{trans_choice("messages.BOOKS", 1, ["count" => 1])}}
+
 @extends('layouts.base', ["navigationItem" => 1])
 
 @section('title', "Books")

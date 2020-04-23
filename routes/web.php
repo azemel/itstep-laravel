@@ -28,7 +28,7 @@ Route::post("/books/{book}/edit", "BooksController@save")->name("books.save");
 
   
 Route::get("/books/{book}", "BooksController@find")->name("book");
-Route::get("/books", "BooksController@list")->name("books");
+Route::get("/{locale}/books", "BooksController@list")->name("books");
 
 Route::post("/books/{book}/reserve", "BooksController@reserve")->name("books.reserve");
 Route::post("/books/{book}/unreserve", "BooksController@unreserve")->name("books.unreserve");

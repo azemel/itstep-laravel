@@ -2,7 +2,7 @@
 
 $items  = [
   ["Main", route("index")],
-  ["Books", route("books")],
+  ["Books", route("books", ["locale" => "en"])],
 ];
 
 if (Auth::id()) {

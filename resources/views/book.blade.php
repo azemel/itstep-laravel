@@ -20,6 +20,10 @@
     <div class="book__author">{{$book->authorName}} • {{$book->year}}</div>
     <div class="book__isbn">ISBN {{$book->isbn}}</div>
     
+    @if(session("message")) 
+      <div>{{session("message")}}</div>
+    @endif
+
     @can('reserve', $book)
       <div>
         <form action="{{route("books.reserve", ["book" => $book])}}" method="post">
@@ -31,7 +35,7 @@
       
     @can('unreserve', $book)
       <div>
-        <form action="{{route("books.unreserv e", ["book" => $book])}}" method="post">
+        <form action="{{route("books.unreserve", ["book" => $book])}}" method="post">
           @csrf
           <button type="submit">Отказаться</button>
         </form>

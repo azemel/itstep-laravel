@@ -25,7 +25,7 @@ class BookRequest extends FormRequest
     {
         return [
           "title" => "required|min:3",
-          "author" => "required",
+          "author" => "required", 
           "isbn" => "nullable|min:13|max:13|regex:/\d+-\d+-\d+-[\dX]/i",
           "year" => "nullable|integer|min:1500",
         ];
